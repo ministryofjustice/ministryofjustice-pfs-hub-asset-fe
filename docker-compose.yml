@@ -1,0 +1,26 @@
+version: '3'
+services:
+    asset-fe:
+        build: .
+        ports: 
+        - 8080:3000
+
+    asset-be:
+        image: asset-management-be
+        ports: 
+        - 8081:8080
+        environment:
+            DB_HOST: asset-db
+            DB_NAME: postgres
+            DB_USER: postgres
+            DB_PASSWORD: postgres
+            NODE_ENV: production
+        depends_on: 
+            - asset-db
+            
+    asset-db:
+        image: postgres:12-alpine
+        ports: 
+        - 42069:5432
+        environment:
+            POSTGRES_PASSWORD: postgres
